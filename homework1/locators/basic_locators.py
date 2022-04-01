@@ -1,15 +1,13 @@
 from selenium.webdriver.common.by import By
 
-NAVIGATION = {
-    'campaigns': (By.XPATH, "//a[contains(@class, 'center-module-campaigns')]"),
-    'audiences': (By.XPATH, "//a[contains(@class, 'center-module-segments')]"),
-    'billing': (By.XPATH, "//a[contains(@class, 'center-module-billing')]"),
-    'statistics': (By.XPATH, "//a[contains(@class, 'center-module-statistics')]"),
-    'pro': (By.XPATH, "//a[contains(@class, 'center-module-pro')]"),
-    'profile': (By.XPATH, "//a[contains(@class, 'center-module-profile')]"),
-    'tools': (By.XPATH, "//a[contains(@class, 'center-module-tools')]"),
-    'help': (By.XPATH, "//a[contains(@class, 'center-module-help')]")
-}
+def nav_sample(path):
+    return (By.XPATH, f"//a[contains(@class, 'center-module-{path}')]")
+
+def pages_identifiers(page):
+    if page == 'billing':
+        return (By.XPATH, "//li[contains(@data-type, 'deposit')]")
+    elif page == 'statistics':
+        return (By.XPATH, "//div[contains(@class, 'ads-summary-statistics')]")
 
 QUERY_LOCATOR_LOGIN = (By.XPATH, "//div[contains(@class, 'responseHead-module-button')]")
 QUERY_LOCATOR_EMAIL = (By.NAME, 'email')
@@ -20,3 +18,4 @@ GO_BUTTON_LOGOUT = (By.XPATH, "//a[contains(@href, 'logout')]")
 QUERY_LOCATOR_FIO = (By.XPATH, "//div[contains(@data-name, 'fio')]/div/input")
 QUERY_LOCATOR_PHONE_NUM = (By.XPATH, "//div[contains(@data-name, 'phone')]/div/input")
 GO_BUTTON_SAVE = (By.XPATH, "//button[contains(@data-class-name, 'Submit')]")
+QUERY_LOCATOR_PAGECONTENT = (By.XPATH, "//div[contains(@class, 'layout-module-pageContentWrap')]")
