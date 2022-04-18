@@ -9,7 +9,11 @@ class SegmentsPage(BasePage):
         self.driver = driver
 
     def create_segment(self, segment_name):
-        self.click(self.locators.LOCATOR_CREATE_SEGMENT)
+        create_segment_btn = self.find(self.locators.LOCATOR_CREATE_SEGMENT)
+        if create_segment_btn.is_displayed():
+            self.click(self.locators.LOCATOR_CREATE_SEGMENT)
+        else:
+            self.click(self.locators.LOCATOR_CREATE_FIRST_SEGMENT)
 
         self.click(self.locators.LOCATOR_SEGMENT_CHECKBOX)
         self.click(self.locators.LOCATOR_ADD_SEGMENT_BUTTON)

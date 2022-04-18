@@ -36,7 +36,9 @@ class CampaignLocators:
 
 
 class SegmentsLocators():
+    LOCATOR_CREATION = (By.XPATH, "//div[contains(@class, 'js-create-button-wrap')]")
     LOCATOR_CREATE_SEGMENT = (By.XPATH, "//div[contains(@class, 'js-create-button-wrap')]/button")
+    LOCATOR_CREATE_FIRST_SEGMENT = (By.XPATH, "//a[contains(@href, '/segments/segments_list/new/')]")
     LOCATOR_SEGMENT_CHECKBOX = (By.XPATH, "//input[contains(@class, 'adding-segments-source__checkbox')]")
     LOCATOR_ADD_SEGMENT_BUTTON = (By.XPATH, "//div[contains(@class, 'js-add-button')]/button")
     LOCATOR_SEGMENT_NAME_INPUT = (By.XPATH, "//div[contains(@class, 'input_create-segment-form')]/div/input")
