@@ -1,6 +1,7 @@
 import pytest
 from dataclasses import dataclass
 from faker import Faker
+import random
 
 
 fake = Faker()
@@ -30,7 +31,11 @@ class Builder:
             logicType: str
 
         if relations is None:
-            relations = {'object_type': 'segment', 'object_id': 1585154}
+            relations = {'object_type': random.choice(['remarketing_player', 'remarketing_payer']),
+                         'param_type': random.choice(['positive', 'negative']),
+                         'param_left': random.randint(175, 365),
+                         'param_right': random.randint(0, 174)
+                         }
 
         if name is None:
             name = fake.lexify(text='??????? ??????? ???????')
@@ -43,4 +48,3 @@ class ApiBase:
     def setup(self, api_client):
         self.api_client = api_client
         self.builder = Builder
-        api_client.post_login()
