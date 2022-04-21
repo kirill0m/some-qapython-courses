@@ -69,6 +69,7 @@ class ApiClient:
 
         self.csrf_token = tokens['csrftoken']
         self.headers['X-CSRFToken'] = self.csrf_token
+
         self.session.cookies = cookiejar_from_dict(tokens)
 
         return resp
@@ -88,19 +89,19 @@ class ApiClient:
 
     def get_campaign_by_id(self, id):
         location = 'api/v2/campaigns.json'
-        resp = self._request(method='GET', location=location, headers=self.headers, params={'_q': id})
-        return True if resp.json()['count'] > 0 else False
-
-    def _delete_campaign_by_id(self, id):
-        if self.get_campaign_by_id(id):
-            location = f'api/v2/campaigns/{id}.json'
-            data = {
-                'status': 'deleted'
-            }
-            resp = self._request(method='POST', location=location, headers=self.headers, json=data, expected_status=204)
-            return True if resp.ok else False
+        resp = self._request(method='GET', location=location, headers=self.headers, params={'_q': id}).json()
+        if resp['count'] > 0:
+            return resp['items'][0]
         else:
             raise CampaignNotFoundException
+
+    def _delete_campaign_by_id(self, id):
+        location = f'api/v2/campaigns/{id}.json'
+        data = {
+            'status': 'deleted'
+        }
+        resp = self._request(method='POST', location=location, headers=self.headers, json=data, expected_status=204)
+        return True if resp.ok else False
 
     def post_create_segment(self, name, pass_condition, relations, logic_type):
         location = 'api/v2/remarketing/segments.json'
@@ -110,7 +111,11 @@ class ApiClient:
             "relations": [
                 {
                     "object_type": relations['object_type'],
-                    "object_id": relations['object_id']
+                    "params": {
+                        "type": relations['param_type'],
+                        "left": relations['param_left'],
+                        "right": relations['param_right']
+                    }
                 }
             ],
             "logicType": logic_type
@@ -121,9 +126,13 @@ class ApiClient:
         return segment_id
 
     def get_segment_by_id(self, id):
-        location = 'api/v2/coverage/segment.json'
-        resp = self._request(method='GET', location=location, headers=self.headers, params={'id': id})
-        return True if resp.json()['items'][0]['status'] != 'not found' else False
+        location = 'api/v2/remarketing/segments.json'
+        resp = self._request(method='GET', location=location, headers=self.headers, params={'fields': 'id,name',
+                                                                                            '_id': id}).json()
+        if resp['count'] != 0:
+            return resp['items'][0]
+        else:
+            raise SegmentNotFoundException
 
     def delete_segment_by_id(self, id):
         if self.get_segment_by_id(id):
@@ -136,5 +145,3 @@ class ApiClient:
             ]
             resp = self._request(method='POST', location=location, headers=self.headers, json=json_data)
             return True if len(resp.json()['successes']) > 0 else False
-        else:
-            raise SegmentNotFoundException
