@@ -27,7 +27,7 @@ class ApiClient:
             'X-CSRFToken': None,
         }
 
-    def _request(self, method, location=None, headers=None, data=None, json=None, expected_status=None, params=None):
+    def _request(self, method, location=None, headers=None, data=None, json=None, expected_status=200, params=None):
         url = self.base_url if location is None else urljoin(self.base_url, location)
 
         response = self.session.request(method=method, url=url, headers=headers, data=data, json=json,
