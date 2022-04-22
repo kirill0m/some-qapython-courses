@@ -36,7 +36,6 @@ class Builder:
                          'param_left': random.randint(175, 365),
                          'param_right': random.randint(0, 174)
                          }
-
         if name is None:
             name = fake.lexify(text='??????? ??????? ???????')
 

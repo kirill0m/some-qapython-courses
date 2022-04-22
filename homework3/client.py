@@ -69,7 +69,6 @@ class ApiClient:
 
         self.csrf_token = tokens['csrftoken']
         self.headers['X-CSRFToken'] = self.csrf_token
-
         self.session.cookies = cookiejar_from_dict(tokens)
 
         return resp
@@ -102,6 +101,7 @@ class ApiClient:
         }
         resp = self._request(method='POST', location=location, headers=self.headers, json=data, expected_status=204)
         return True if resp.ok else False
+
 
     def post_create_segment(self, name, pass_condition, relations, logic_type):
         location = 'api/v2/remarketing/segments.json'
