@@ -1,10 +1,8 @@
 #!/bin/bash
-
 # variables
 LOGFILE="access.log"
 RESULT="result_bash.txt"
 
-## actions
 all_requests_cnt(){
 echo "Общее количество запросов:" > $RESULT
 cat $LOGFILE | wc -l >> $RESULT
@@ -19,7 +17,13 @@ echo '' >> $RESULT
 
 top_requests_freq(){
 echo "Топ 10 самых частых запросов:" >> $RESULT
-cat $LOGFILE | awk '{print $7}' | sort | uniq -c | sort -rn | awk '{print $1, $2}' | head -10 >> $RESULT
+cat $LOGFILE | awk '{print $7}' | sort | uniq -c | sort -rn | head -10 >> $RESULT
+echo '' >> $RESULT
+}
+
+top_users_req_4XX(){
+echo "Топ 5 самых больших по размеру запросов, которые завершились клиентской (4XX) ошибкой:" >> $RESULT
+cat $LOGFILE | awk '$9 ~ /^4/ {print $1, $7, $9, $10}' | sort -rnk4 | head -5 >> $RESULT
 echo '' >> $RESULT
 }
 
@@ -32,4 +36,5 @@ cat $LOGFILE | awk '$9 ~ /^5/ {print $1}' | sort | uniq -c | sort -rn | awk '{pr
 all_requests_cnt
 top_requests_methods
 top_requests_freq
+top_users_req_4XX
 top_users_req_5XX
