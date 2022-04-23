@@ -102,7 +102,6 @@ class ApiClient:
         resp = self._request(method='POST', location=location, headers=self.headers, json=data, expected_status=204)
         return True if resp.ok else False
 
-
     def post_create_segment(self, name, pass_condition, relations, logic_type):
         location = 'api/v2/remarketing/segments.json'
         json_data = {
@@ -145,3 +144,4 @@ class ApiClient:
             ]
             resp = self._request(method='POST', location=location, headers=self.headers, json=json_data)
             return True if len(resp.json()['successes']) > 0 else False
+
