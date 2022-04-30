@@ -38,7 +38,7 @@ def items_from_logs():
     pattern = re.compile(r'\s+'.join(parts) + r'\s*\Z')
     items = []
 
-    with open('access.log', 'r') as f:
+    with open('homework6/access.log', 'r') as f:
         lines = f.readlines()
         for line in lines:
             m = pattern.match(line)

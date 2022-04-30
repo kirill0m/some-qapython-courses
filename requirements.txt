@@ -4,3 +4,4 @@ webdriver-manager==3.5.3
 Faker==13.3.3
 pymysql==1.0.2
 sqlalchemy==1.4.31
+pytest-xdist==2.5.0
